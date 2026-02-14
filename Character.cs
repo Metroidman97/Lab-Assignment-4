@@ -14,11 +14,7 @@ public class Character
     public bool hasStout;
     public bool hPAveraged;
 
-    private int conModifier;
-    private Character classSelection;
-    private Character raceSelection;
-
-    private int finalHP;
+    protected int finalHP;
 
     public Character()
     {
@@ -87,56 +83,112 @@ public class Character
         this.hasStout = hasStout;
         this.hPAveraged = hPAveraged;
     }
-
+    /*
     public void CalculateHP()
     {
-        GetConModifier();
         GetCharacterClass();
         GetCharacterRace();
+
+        for (int i = 1; i <= level; i++)
+        {
+            int tempHP;
+
+            if (hPAveraged)
+            {
+                tempHP = classSelection.dieType + raceSelection.hPBonus;
+                finalHP += tempHP;
+            }
+        }
+
+        Debug.Log("Final HP: " + finalHP + ", Die type: " + classSelection.dieType + ", Race bonus: " + raceSelection.hPBonus);
     }
-    private void GetConModifier()
+    */
+    protected int GetConModifier()
     {
         if (conScore == 1)
-            conModifier = -5;
+            return -5;
         else if (conScore == 2 || conScore == 3)
-            conModifier = -4;
+            return -4;
         else if (conScore == 4 || conScore == 5)
-            conModifier = -3;
+            return -3;
         else if (conScore == 6 || conScore == 7)
-            conModifier = -2;
+            return -2;
         else if (conScore == 8 || conScore == 9)
-            conModifier = -1;
+            return -1;
         else if (conScore == 10 || conScore == 11)
-            conModifier = 0;
+            return 0;
         else if (conScore == 12 || conScore == 13)
-            conModifier = 1;
+            return 1;
         else if (conScore == 14 || conScore == 15)
-            conModifier = 2;
+            return 2;
         else if (conScore == 16 || conScore == 17)
-            conModifier = 3;
+            return 3;
         else if (conScore == 18 || conScore == 19)
-            conModifier = 4;
+            return 4;
         else if (conScore == 20 || conScore == 21)
-            conModifier = 5;
+            return 5;
         else if (conScore == 22 || conScore == 23)
-            conModifier = 6;
+            return 6;
         else if (conScore == 24 || conScore == 25)
-            conModifier = 7;
+            return 7;
         else if (conScore == 26 || conScore == 27)
-            conModifier = 8;
+            return 8;
         else if (conScore == 28 || conScore == 29)
-            conModifier = 9;
+            return 9;
         else if (conScore == 30)
-            conModifier = 10;
+            return 10;
+        else
+            return 0;
     }
-
+    /*
     private void GetCharacterClass()
     {
-        classSelection = (Character)Activator.CreateInstance(Type.GetType(characterClass));
+        //var classSelection = (Character)Activator.CreateInstance(Type.GetType(characterClass));
+        
+       switch (characterClass)
+       {
+           case "Artificer":
+               classSelection = new Artificer();
+                   break;
+       }
+       
+        //classSelection = CharacterFactory.Create(characterClass);
     }
 
     private void GetCharacterRace()
     {
-        raceSelection = (Character)Activator.CreateInstance(Type.GetType(race));
+        //raceSelection = (Character)Activator.CreateInstance(Type.GetType(race));
+        //raceSelection = RaceFactory.Create(race);
+    }
+    */
+    protected int GetToughBonus()
+    {
+        if (hasTough)
+            return 2;
+        else
+            return 0;
+    }
+
+    protected int GetStoutBonus()
+    {
+        if (hasStout)
+            return 1;
+        else
+            return 0;
+    }
+
+    protected int GetRaceBonus()
+    {
+        switch (race.ToLower())
+        {
+            case "dwarf":
+                return 2;
+            case "ork":
+                return 1;
+            case "goliath":
+                return 1;
+            default:
+                return 0;
+        }
     }
 }
